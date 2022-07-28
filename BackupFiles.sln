@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackupFiles", "BackupFiles.csproj", "{AE343A6A-16D3-4B2E-B19F-E46565AA434E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackupFiles", "BackupFiles\BackupFiles.csproj", "{22306759-B72A-43F0-92EC-B45191D0E2FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -8,9 +8,9 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AE343A6A-16D3-4B2E-B19F-E46565AA434E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE343A6A-16D3-4B2E-B19F-E46565AA434E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE343A6A-16D3-4B2E-B19F-E46565AA434E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE343A6A-16D3-4B2E-B19F-E46565AA434E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22306759-B72A-43F0-92EC-B45191D0E2FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22306759-B72A-43F0-92EC-B45191D0E2FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22306759-B72A-43F0-92EC-B45191D0E2FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22306759-B72A-43F0-92EC-B45191D0E2FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
