@@ -1,10 +1,4 @@
 ﻿{
-  "ConnectionString": "Server=localhost;Database=tempDB;Uid=<dbUserName>;Pwd=<dbPassword>",
-  "Smtp": {
-    "Host": "smtp.gmail.com",
-    "Port": "587",
-    "Username": "<YourGmailUserName>",
-    "Password": "<YourGmailPassword>",
-    "From": "Your Name"
-  }
+  "SourceDirectoryPath": "C:\\Users\\s-tag\\RiderProjects\\source",
+  "TargetDirectoryPath": "C:\\Users\\s-tag\\RiderProjects\\target"
 }
