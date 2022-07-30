@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
@@ -22,6 +23,8 @@ namespace BackupFiles
             var jsonString = File.ReadAllText(fileName);
             var paths = JsonSerializer.Deserialize<Paths>(jsonString);
 
+            
+
             // if (paths != null)
             // {
             //     Console.WriteLine(paths.SourceDirectoryPath);
@@ -44,6 +47,14 @@ namespace BackupFiles
             // If the directory already exists, this method does not create a new directory.
             Directory.CreateDirectory(targetDir);
 
+            var logFileName = currentDate + ".log";
+            var logPath = Path.Combine(targetDir, logFileName);
+            StreamWriter logFile = File.CreateText(logPath);
+            Trace.Listeners.Add(new TextWriterTraceListener(logFile));
+            Trace.AutoFlush = true;
+            Trace.WriteLine("Starting Backup Log");
+            Trace.WriteLine($"Application started {DateTime.Now.ToString(CultureInfo.InvariantCulture)}");
+            
             // To copy a file to another location and
             // overwrite the destination file if it already exists.
             // File.Copy(sourceFile, destFile, true);
@@ -56,6 +67,7 @@ namespace BackupFiles
             //       in this code example.
             if (Directory.Exists(sourcePath))
             {
+                Trace.WriteLine("All right! Directory exists. Start copying...");
                 string[] files = Directory.GetFiles(sourcePath);
 
                 // Copy the files and overwrite destination files if they already exist.
@@ -64,21 +76,26 @@ namespace BackupFiles
                     // Use static Path methods to extract only the file name from the path.
                     var name = Path.GetFileName(s);
                     var path = Path.Combine(targetDir, name);
-                    File.Copy(s, path, true);
+                    try
+                    {
+                        File.Copy(s, path, true);
+                        Trace.WriteLine($"File {s} successfully copied in {path}.");
+                    }
+                    catch (IOException e)
+                    {
+
+                        Trace.WriteLine($"File {path} not copied. Error: {e.Message}");
+                    }
+                    
                 }
+                Trace.WriteLine("Copying completed.");
             }
             else
             {
-                Console.WriteLine("Source path does not exist!");
+                Trace.WriteLine("Copying is not possible. Directory does not exist.");
             }
 
-            // Keep console window open in debug mode.
-            Console.WriteLine("Press any key to exit.");
-            Console.ReadKey();
-        }
-
-        private static void CopyFiles()
-        {
+            Trace.WriteLine("Application completed.");
         }
     }
 }
