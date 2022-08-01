@@ -10,26 +10,16 @@ namespace BackupFiles
     {
         static void Main(string[] args)
         {
-            // var builder = new ConfigurationBuilder()
-            //     .AddJsonFile("config.json", true, true);
-            // var config = builder.Build();
-
-            // string fileName = "WeatherForecast.json";
-            // using FileStream openStream = File.OpenRead(fileName);
-            // WeatherForecast? weatherForecast = 
-            //     await JsonSerializer.DeserializeAsync<WeatherForecast>(openStream);
-
             var fileName = "config.json";
             var jsonString = File.ReadAllText(fileName);
             var paths = JsonSerializer.Deserialize<Paths>(jsonString);
 
             
-
-            // if (paths != null)
-            // {
-            //     Console.WriteLine(paths.SourceDirectoryPath);
-            //     Console.WriteLine(paths.TargetDirectoryPath);
-            // }
+            if (paths != null)
+            {
+                Console.WriteLine(paths.SourceDirectoryPath);
+                Console.WriteLine(paths.TargetDirectoryPath);
+            }
 
             // string fileName = "test.txt";
             var sourcePath = paths.SourceDirectoryPath;
@@ -50,10 +40,16 @@ namespace BackupFiles
             var logFileName = currentDate + ".log";
             var logPath = Path.Combine(targetDir, logFileName);
             StreamWriter logFile = File.CreateText(logPath);
+
+            Logger.File = logFile;
+            Logger.Mode = LoggerLevels.Info;
+            Logger.WriteInfo("Hello World");
+            
             Trace.Listeners.Add(new TextWriterTraceListener(logFile));
             Trace.AutoFlush = true;
             Trace.WriteLine("Starting Backup Log");
             Trace.WriteLine($"Application started {DateTime.Now.ToString(CultureInfo.InvariantCulture)}");
+
             
             // To copy a file to another location and
             // overwrite the destination file if it already exists.
