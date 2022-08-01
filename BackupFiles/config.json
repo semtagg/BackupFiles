@@ -1,7 +1,5 @@
 ﻿{
   "SourceDirectoryPath": "C:\\Users\\s-tag\\RiderProjects\\source",
   "TargetDirectoryPath": "C:\\Users\\s-tag\\RiderProjects\\target",
-  "Logging": {
-    "LogLevel": ""
-  }
+  "LogLevel": "Info"
 }

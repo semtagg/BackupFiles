@@ -12,18 +12,18 @@ namespace BackupFiles
         {
             var fileName = "config.json";
             var jsonString = File.ReadAllText(fileName);
-            var paths = JsonSerializer.Deserialize<Paths>(jsonString);
+            var configuration = JsonSerializer.Deserialize<Configuration>(jsonString);
 
             
-            if (paths != null)
+            if (configuration != null)
             {
-                Console.WriteLine(paths.SourceDirectoryPath);
-                Console.WriteLine(paths.TargetDirectoryPath);
+                Console.WriteLine(configuration.SourceDirectoryPath);
+                Console.WriteLine(configuration.TargetDirectoryPath);
             }
 
             // string fileName = "test.txt";
-            var sourcePath = paths.SourceDirectoryPath;
-            var targetPath = paths.TargetDirectoryPath;
+            var sourcePath = configuration.SourceDirectoryPath;
+            var targetPath = configuration.TargetDirectoryPath;
             var currentDate = DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture);
             Console.WriteLine(currentDate);
             // Use Path class to manipulate file and directory paths.
@@ -42,13 +42,15 @@ namespace BackupFiles
             StreamWriter logFile = File.CreateText(logPath);
 
             Logger.File = logFile;
-            Logger.Mode = LoggerLevels.Info;
-            Logger.WriteInfo("Hello World");
+            Logger.Mode = configuration.LogLevel;
             
-            Trace.Listeners.Add(new TextWriterTraceListener(logFile));
+            /*Trace.Listeners.Add(new TextWriterTraceListener(logFile));
             Trace.AutoFlush = true;
             Trace.WriteLine("Starting Backup Log");
-            Trace.WriteLine($"Application started {DateTime.Now.ToString(CultureInfo.InvariantCulture)}");
+            Trace.WriteLine($"Application started {DateTime.Now.ToString(CultureInfo.InvariantCulture)}");*/
+            
+            Logger.WriteInfo("Starting Backup Log");
+            Logger.WriteInfo($"Application started {DateTime.Now.ToString(CultureInfo.InvariantCulture)}");
 
             
             // To copy a file to another location and
