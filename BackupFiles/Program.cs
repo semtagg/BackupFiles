@@ -14,7 +14,7 @@ namespace BackupFiles
             var jsonString = File.ReadAllText(fileName);
             var configuration = JsonSerializer.Deserialize<Configuration>(jsonString);
 
-            
+
             if (configuration != null)
             {
                 Console.WriteLine(configuration.SourceDirectoryPath);
@@ -29,9 +29,9 @@ namespace BackupFiles
             // Use Path class to manipulate file and directory paths.
             // var sourceFile = Path.Combine(sourcePath, fileName);
             // var destFile = Path.Combine(targetPath, fileName);
-            
+
             var targetDir = Path.Combine(targetPath, currentDate);
-            
+
             // To copy a folder's contents to a new location:
             // Create a new target folder.
             // If the directory already exists, this method does not create a new directory.
@@ -43,16 +43,17 @@ namespace BackupFiles
 
             Logger.File = logFile;
             Logger.Mode = configuration.LogLevel;
-            
+            Logger.Init();
+
             /*Trace.Listeners.Add(new TextWriterTraceListener(logFile));
             Trace.AutoFlush = true;
             Trace.WriteLine("Starting Backup Log");
             Trace.WriteLine($"Application started {DateTime.Now.ToString(CultureInfo.InvariantCulture)}");*/
-            
-            Logger.WriteInfo("Starting Backup Log");
-            Logger.WriteInfo($"Application started {DateTime.Now.ToString(CultureInfo.InvariantCulture)}");
 
-            
+            Logger.WriteInfo("Starting Backup Log.");
+            Logger.WriteInfo("Application started.");
+
+
             // To copy a file to another location and
             // overwrite the destination file if it already exists.
             // File.Copy(sourceFile, destFile, true);
@@ -65,7 +66,7 @@ namespace BackupFiles
             //       in this code example.
             if (Directory.Exists(sourcePath))
             {
-                Trace.WriteLine("All right! Directory exists. Start copying...");
+                Logger.WriteDebug("All right! Directory exists. Start copying...");
                 string[] files = Directory.GetFiles(sourcePath);
 
                 // Copy the files and overwrite destination files if they already exist.
@@ -77,23 +78,22 @@ namespace BackupFiles
                     try
                     {
                         File.Copy(s, path, true);
-                        Trace.WriteLine($"File {s} successfully copied in {path}.");
+                        Logger.WriteDebug($"File {s} successfully copied in {path}.");
                     }
                     catch (IOException e)
                     {
-
-                        Trace.WriteLine($"File {path} not copied. Error: {e.Message}");
+                        Logger.WriteError($"File {path} not copied. Error: {e.Message}");
                     }
-                    
                 }
-                Trace.WriteLine("Copying completed.");
+
+                Logger.WriteError("Copying completed.");
             }
             else
             {
-                Trace.WriteLine("Copying is not possible. Directory does not exist.");
+                Logger.WriteError("Copying is not possible. Directory does not exist.");
             }
 
-            Trace.WriteLine("Application completed.");
+            Logger.WriteInfo("Application completed.");
         }
     }
 }

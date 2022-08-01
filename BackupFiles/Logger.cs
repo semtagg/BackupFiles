@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 
 namespace BackupFiles
@@ -9,20 +10,24 @@ namespace BackupFiles
         public static string Mode { get; set; } = "Debug";
         public static StreamWriter File { get; set; }
 
-        public static void WriteDebug(string message)
+        public static void Init()
         {
             Trace.Listeners.Add(new TextWriterTraceListener(File));
             Trace.AutoFlush = true;
-            Trace.WriteLine( "[DEBUG]" + message);
+        }
+
+        public static void WriteDebug(string message)
+        {
+            
+            Trace.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff",CultureInfo.InvariantCulture) + "  [DEBUG]  " + message);
         }
 
         public static void WriteInfo(string message)
         {
             if (Mode != "Debug")
             {
-                Trace.Listeners.Add(new TextWriterTraceListener(File));
-                Trace.AutoFlush = true;
-                Trace.WriteLine( "[INFO]" + message);
+
+                Trace.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture) + "  [INFO]  " + message);
             }
         }
 
@@ -30,9 +35,8 @@ namespace BackupFiles
         {
             if (Mode == "Error")
             {
-                Trace.Listeners.Add(new TextWriterTraceListener(File));
-                Trace.AutoFlush = true;
-                Trace.WriteLine( "[ERROR]" + message);
+
+                Trace.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff",CultureInfo.InvariantCulture) + "  [ERROR]  " + message);
             }
         }
     }
