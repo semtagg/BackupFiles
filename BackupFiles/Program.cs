@@ -17,17 +17,18 @@ namespace BackupFiles
                 Logger.Mode = Configuration.LogLevel;
                 Logger.Initialize();
 
-                Logger.WriteInfo("Starting Backup Log.");
                 Logger.WriteInfo("Application started.");
+                Logger.WriteDebug("Starting Backup Log.");
 
                 var sourcePath = Configuration.SourceDirectory;
                 foreach (var s in sourcePath)
                 {
                     if (Directory.Exists(s))
                     {
-                        Logger.WriteDebug($"All right! Directory {s} exists. Start copying.");
-                        var files = Directory.GetFiles(s);
+                        Logger.WriteInfo($"All right! Directory {s} exists.");
+                        Logger.WriteDebug($" Start copying from {s}.");
 
+                        var files = Directory.GetFiles(s);
                         foreach (var f in files)
                         {
                             var name = Path.GetFileName(f);
@@ -43,7 +44,7 @@ namespace BackupFiles
                             }
                         }
 
-                        Logger.WriteInfo("Copying completed.");
+                        Logger.WriteInfo($"Copying from {s} completed.");
                     }
                     else
                     {

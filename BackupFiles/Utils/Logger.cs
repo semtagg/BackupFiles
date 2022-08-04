@@ -18,14 +18,14 @@ namespace BackupFiles
 
         public static void WriteDebug(string message)
         {
-            Trace.WriteLine(GetDate() + "  [DEBUG]  " + message);
+            Trace.WriteLine(Write(message, LogEventTypes.Debug));
         }
 
         public static void WriteInfo(string message)
         {
             if (Mode != "Debug")
             {
-                Trace.WriteLine(GetDate() + "  [INFO]  " + message);
+                Trace.WriteLine(Write(message, LogEventTypes.Info));
             }
         }
 
@@ -33,9 +33,12 @@ namespace BackupFiles
         {
             if (Mode == "Error")
             {
-                Trace.WriteLine(GetDate() + "  [ERROR]  " + message);
+                Trace.WriteLine(Write(message, LogEventTypes.Error));
             }
         }
+
+        private static string Write(string message, string type)
+            => GetDate() + $"  [{type}]  " + message;
 
         private static string GetDate()
             => DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture);
