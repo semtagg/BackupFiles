@@ -8,11 +8,11 @@ namespace BackupFiles
     public static class Logger
     {
         public static string Mode { get; set; } = "Debug";
-        public static StreamWriter File { get; set; }
+        public static StreamWriter LogFile { get; set; }
 
-        public static void Init()
+        public static void Initialize()
         {
-            Trace.Listeners.Add(new TextWriterTraceListener(File));
+            Trace.Listeners.Add(new TextWriterTraceListener(LogFile));
             Trace.AutoFlush = true;
         }
 
@@ -33,7 +33,7 @@ namespace BackupFiles
         {
             if (Mode == "Error")
             {
-                Trace.WriteLine(GetDate() +  "  [ERROR]  " + message);
+                Trace.WriteLine(GetDate() + "  [ERROR]  " + message);
             }
         }
 
