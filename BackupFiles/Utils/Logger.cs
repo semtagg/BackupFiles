@@ -18,16 +18,14 @@ namespace BackupFiles
 
         public static void WriteDebug(string message)
         {
-            
-            Trace.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff",CultureInfo.InvariantCulture) + "  [DEBUG]  " + message);
+            Trace.WriteLine(GetDate() + "  [DEBUG]  " + message);
         }
 
         public static void WriteInfo(string message)
         {
             if (Mode != "Debug")
             {
-
-                Trace.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture) + "  [INFO]  " + message);
+                Trace.WriteLine(GetDate() + "  [INFO]  " + message);
             }
         }
 
@@ -35,9 +33,11 @@ namespace BackupFiles
         {
             if (Mode == "Error")
             {
-
-                Trace.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff",CultureInfo.InvariantCulture) + "  [ERROR]  " + message);
+                Trace.WriteLine(GetDate() +  "  [ERROR]  " + message);
             }
         }
+
+        private static string GetDate()
+            => DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture);
     }
 }

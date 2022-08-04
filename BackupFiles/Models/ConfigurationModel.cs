@@ -1,8 +1,8 @@
 ﻿namespace BackupFiles
 {
-    public class Configuration
+    public class ConfigurationModel
     {
-        public string SourceDirectoryPath { get; set; }
+        public string[] SourceDirectoryPath { get; set; }
         public string TargetDirectoryPath { get; set; }
 
         public string LogLevel { get; set; }
