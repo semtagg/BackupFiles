@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace BackupFiles
 {
@@ -6,7 +8,7 @@ namespace BackupFiles
     {
         static void Main(string[] args)
         {
-            DoWork("config.json");
+            DoWork("Configuration\\config.json");
         }
 
         private static void DoWork(string fileName)
@@ -20,19 +22,24 @@ namespace BackupFiles
                 Logger.WriteInfo("Application started.");
                 Logger.WriteDebug("Starting Backup Log.");
 
-                var sourcePath = Configuration.SourceDirectory;
-                foreach (var s in sourcePath)
+                var queue = new Queue<string>(Configuration.SourceDirectory);
+                while (queue.Count > 0)
                 {
+                    var s = queue.Dequeue();
                     if (Directory.Exists(s))
                     {
                         Logger.WriteInfo($"All right! Directory {s} exists.");
                         Logger.WriteDebug($" Start copying from {s}.");
 
+                        var temp = Configuration.TargetDirectory
+                                   + Configuration.GetShortPath(s);
+                        Directory.CreateDirectory(Path.Combine(Configuration.TargetDirectory, Configuration.GetShortPath(s)));
                         var files = Directory.GetFiles(s);
+                        Console.WriteLine(Directory.GetDirectoryRoot(s));
                         foreach (var f in files)
                         {
-                            var name = Path.GetFileName(f);
-                            var path = Path.Combine(Configuration.TargetDirectory, name);
+                            var name = Configuration.GetShortPath(f);
+                            var path = Path.Combine(Configuration.TargetDirectory , name);
                             try
                             {
                                 File.Copy(f, path, true);
@@ -42,6 +49,12 @@ namespace BackupFiles
                             {
                                 Logger.WriteError($"LogFile {path} not copied. Error: {e.Message}");
                             }
+                        }
+
+                        var directories = Directory.GetDirectories(s);
+                        foreach (var directory in directories)
+                        {
+                            queue.Enqueue(directory);
                         }
 
                         Logger.WriteInfo($"Copying from {s} completed.");

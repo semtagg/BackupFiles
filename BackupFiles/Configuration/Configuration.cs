@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace BackupFiles
@@ -24,6 +25,34 @@ namespace BackupFiles
             var logFileName = currentDate + ".log";
             var logPath = Path.Combine(TargetDirectory, logFileName);
             return File.CreateText(logPath);
+        }
+
+        public static string GetShortPath(string path)
+        {
+            foreach (var sd in SourceDirectory)
+            {
+                if (IsIn(sd, path))
+                {
+                    var temp = sd.Split("\\");
+                    return temp[^1] + path[sd.Length..];
+                }
+            }
+
+            return null;
+        }
+
+        private static bool IsIn(string i, string j)
+        {
+            var a = i.Split("\\");
+            var b = j.Split("\\");
+
+            for (int k = 0; k < a.Length; k++)
+            {
+                if (a[k] != b[k]) 
+                    return false;
+            }
+
+            return true;
         }
 
         private static string GetDate()

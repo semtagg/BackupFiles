@@ -1,6 +1,6 @@
 ﻿namespace BackupFiles
 {
-    public static class LogEventTypes
+    public static class LoggerLevel
     {
         public static string Error => "ERROR";
         public static string Info => "INFO";

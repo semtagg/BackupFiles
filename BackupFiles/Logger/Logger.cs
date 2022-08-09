@@ -18,14 +18,14 @@ namespace BackupFiles
 
         public static void WriteDebug(string message)
         {
-            Trace.WriteLine(Write(message, LogEventTypes.Debug));
+            Trace.WriteLine(Write(message, LoggerLevel.Debug));
         }
 
         public static void WriteInfo(string message)
         {
             if (Mode != "Debug")
             {
-                Trace.WriteLine(Write(message, LogEventTypes.Info));
+                Trace.WriteLine(Write(message, LoggerLevel.Info));
             }
         }
 
@@ -33,7 +33,7 @@ namespace BackupFiles
         {
             if (Mode == "Error")
             {
-                Trace.WriteLine(Write(message, LogEventTypes.Error));
+                Trace.WriteLine(Write(message, LoggerLevel.Error));
             }
         }
 
