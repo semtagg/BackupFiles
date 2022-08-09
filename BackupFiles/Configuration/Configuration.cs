@@ -11,7 +11,7 @@ namespace BackupFiles
         private static ConfigurationModel _configurationModel;
         public static string[] SourceDirectory => _configurationModel.SourceDirectoryPath;
         public static string TargetDirectory { get; private set; }
-        public static string LogLevel => _configurationModel.LogLevel;
+        public static LoggerLevel LogLevel => _configurationModel.LogLevel;
 
         public static StreamWriter SetUp(string fileName)
         {

@@ -19,8 +19,8 @@ namespace BackupFiles
                 Logger.Mode = Configuration.LogLevel;
                 Logger.Initialize();
 
-                Logger.WriteInfo("Application started.");
-                Logger.WriteDebug("Starting Backup Log.");
+                Logger.WriteLog("Application started.", LoggerLevel.Info);
+                Logger.WriteLog("Starting Backup Log.", LoggerLevel.Debug);
 
                 var queue = new Queue<string>(Configuration.SourceDirectory);
                 while (queue.Count > 0)
@@ -28,8 +28,8 @@ namespace BackupFiles
                     var s = queue.Dequeue();
                     if (Directory.Exists(s))
                     {
-                        Logger.WriteInfo($"All right! Directory {s} exists.");
-                        Logger.WriteDebug($" Start copying from {s}.");
+                        Logger.WriteLog($"All right! Directory {s} exists.", LoggerLevel.Info);
+                        Logger.WriteLog($" Start copying from {s}.", LoggerLevel.Debug);
 
                         var temp = Configuration.TargetDirectory
                                    + Configuration.GetShortPath(s);
@@ -43,11 +43,11 @@ namespace BackupFiles
                             try
                             {
                                 File.Copy(f, path, true);
-                                Logger.WriteDebug($"LogFile {f} successfully copied in {path}.");
+                                Logger.WriteLog($"LogFile {f} successfully copied in {path}.", LoggerLevel.Debug);
                             }
                             catch (IOException e)
                             {
-                                Logger.WriteError($"LogFile {path} not copied. Error: {e.Message}");
+                                Logger.WriteLog($"LogFile {path} not copied. Error: {e.Message}", LoggerLevel.Error);
                             }
                         }
 
@@ -57,15 +57,15 @@ namespace BackupFiles
                             queue.Enqueue(directory);
                         }
 
-                        Logger.WriteInfo($"Copying from {s} completed.");
+                        Logger.WriteLog($"Copying from {s} completed.", LoggerLevel.Info);
                     }
                     else
                     {
-                        Logger.WriteError("Copying is not possible. Directory does not exist.");
+                        Logger.WriteLog("Copying is not possible. Directory does not exist.", LoggerLevel.Error);
                     }
                 }
 
-                Logger.WriteInfo("Application completed.");
+                Logger.WriteLog("Application completed.", LoggerLevel.Info);
             }
         }
     }

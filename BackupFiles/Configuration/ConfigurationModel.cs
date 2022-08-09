@@ -4,6 +4,6 @@
     {
         public string[] SourceDirectoryPath { get; set; }
         public string TargetDirectoryPath { get; set; }
-        public string LogLevel { get; set; }
+        public LoggerLevel LogLevel { get; set; }
     }
 }

@@ -7,7 +7,7 @@ namespace BackupFiles
 {
     public static class Logger
     {
-        public static string Mode { get; set; } = "Debug";
+        public static LoggerLevel Mode { get; set; } = LoggerLevel.Error;
         public static StreamWriter LogFile { get; set; }
 
         public static void Initialize()
@@ -16,29 +16,13 @@ namespace BackupFiles
             Trace.AutoFlush = true;
         }
 
-        public static void WriteDebug(string message)
+        public static void WriteLog(string message, LoggerLevel type)
         {
-            Trace.WriteLine(Write(message, LoggerLevel.Debug));
-        }
-
-        public static void WriteInfo(string message)
-        {
-            if (Mode != "Debug")
+            if (Mode >= type)
             {
-                Trace.WriteLine(Write(message, LoggerLevel.Info));
+                Trace.WriteLine(GetDate()  + $"  [{type}]  " + message);
             }
         }
-
-        public static void WriteError(string message)
-        {
-            if (Mode == "Error")
-            {
-                Trace.WriteLine(Write(message, LoggerLevel.Error));
-            }
-        }
-
-        private static string Write(string message, string type)
-            => GetDate() + $"  [{type}]  " + message;
 
         private static string GetDate()
             => DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture);
