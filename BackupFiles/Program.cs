@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 
 namespace BackupFiles
 {
@@ -31,15 +32,13 @@ namespace BackupFiles
                         Logger.WriteLog($"All right! Directory {s} exists.", LoggerLevel.Info);
                         Logger.WriteLog($" Start copying from {s}.", LoggerLevel.Debug);
 
-                        var temp = Configuration.TargetDirectory
-                                   + Configuration.GetShortPath(s);
-                        Directory.CreateDirectory(Path.Combine(Configuration.TargetDirectory, Configuration.GetShortPath(s)));
+                        var shortPath = Path.Combine(Configuration.TargetDirectory, Configuration.GetShortPath(s));
+                        Directory.CreateDirectory(shortPath);
                         var files = Directory.GetFiles(s);
-                        Console.WriteLine(Directory.GetDirectoryRoot(s));
                         foreach (var f in files)
                         {
                             var name = Configuration.GetShortPath(f);
-                            var path = Path.Combine(Configuration.TargetDirectory , name);
+                            var path = Path.Combine(Configuration.TargetDirectory, name);
                             try
                             {
                                 File.Copy(f, path, true);
@@ -67,6 +66,13 @@ namespace BackupFiles
 
                 Logger.WriteLog("Application completed.", LoggerLevel.Info);
             }
+            
+            ZipFile.CreateFromDirectory(Configuration.TargetDirectory,
+                Configuration.TargetDirectory + ".zip",
+                CompressionLevel.Fastest,
+                true);
+            
+            Directory.Delete(Configuration.TargetDirectory, true);
         }
     }
 }
