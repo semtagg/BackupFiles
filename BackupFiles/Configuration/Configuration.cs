@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 
 namespace BackupFiles
@@ -18,7 +17,7 @@ namespace BackupFiles
             var jsonString = File.ReadAllText(fileName);
             _configurationModel = JsonSerializer.Deserialize<ConfigurationModel>(jsonString);
 
-            var currentDate = GetDate();
+            var currentDate = GetDateTime();
             TargetDirectory = Path.Combine(_configurationModel.TargetDirectoryPath, currentDate);
             Directory.CreateDirectory(TargetDirectory);
 
@@ -31,7 +30,7 @@ namespace BackupFiles
         {
             foreach (var sd in SourceDirectory)
             {
-                if (IsIn(sd, path))
+                if (HasSubdirectory(sd, path))
                 {
                     var temp = sd.Split("\\");
                     return temp[^1] + path[sd.Length..];
@@ -41,21 +40,21 @@ namespace BackupFiles
             return null;
         }
 
-        private static bool IsIn(string i, string j)
+        private static bool HasSubdirectory(string source, string isSubdirectory)
         {
-            var a = i.Split("\\");
-            var b = j.Split("\\");
+            var sourceArray = source.Split("\\");
+            var isSubdirectoryArray = isSubdirectory.Split("\\");
 
-            for (int k = 0; k < a.Length; k++)
+            for (int k = 0; k < sourceArray.Length; k++)
             {
-                if (a[k] != b[k]) 
+                if (sourceArray[k] != isSubdirectoryArray[k]) 
                     return false;
             }
 
             return true;
         }
 
-        private static string GetDate()
+        private static string GetDateTime()
             => DateTime.Now.ToString("yyyyMMddHHmmss", CultureInfo.InvariantCulture);
     }
 }

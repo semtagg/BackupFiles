@@ -5,26 +5,26 @@ using System.IO;
 
 namespace BackupFiles
 {
-    public static class Logger
+    public class Logger
     {
-        public static LoggerLevel Mode { get; set; } = LoggerLevel.Error;
-        public static StreamWriter LogFile { get; set; }
-
-        public static void Initialize()
+        private readonly LoggerLevel _mode;
+        
+        public Logger(StreamWriter logFile, LoggerLevel mode)
         {
-            Trace.Listeners.Add(new TextWriterTraceListener(LogFile));
+            _mode = mode;
+            Trace.Listeners.Add(new TextWriterTraceListener(logFile));
             Trace.AutoFlush = true;
         }
 
-        public static void WriteLog(string message, LoggerLevel type)
+        public void WriteLog(string message, LoggerLevel type)
         {
-            if (Mode >= type)
+            if (_mode >= type)
             {
                 Trace.WriteLine(GetDate()  + $"  [{type}]  " + message);
             }
         }
 
-        private static string GetDate()
+        private string GetDate()
             => DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss,fff", CultureInfo.InvariantCulture);
     }
 }
